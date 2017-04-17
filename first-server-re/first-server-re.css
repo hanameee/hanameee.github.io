@@ -1,0 +1,360 @@
+/*----------------------------------------------------------------------------------
+ *반응형 그리드 시스템 설계
+/*----------------------------------------------------------------------------------
+ *breakpoint: mb | 768px | tb 960px | dk; (미리 이런식으로 breakpoint 정리를 해놓는다)
+ *container width: 100% | 100% | 960px(가운데);
+ /*---------------------------------------------------------------------------------
+ *column # : 4 | 12 | 12;
+ *column : % | % | px ;
+ /*---------------------------------------------------------------------------------
+*/
+
+/*common settings*/
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+
+html {
+  font-size: 15px;
+  font-family: 'Jeju Gothic', sans-serif;
+  line-height: 1.6;
+  color: #1d1d1d;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+
+li {
+
+  list-style-type: none;
+  padding: 0;
+}
+
+img {
+  display: block;
+}
+
+/*nav*/
+nav {
+  width: 100%;
+  position:fixed;
+  box-shadow: 0 2px 30px;
+
+}
+
+.nav-list {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding:0;
+
+}
+
+.nav-list div {
+  width:33.33%;
+  opacity: 0.9;
+}
+
+.nav-list-1 {
+  background-color: #6249AD;
+}
+
+.nav-list-2 {
+  background-color: #7B49AD;
+}
+
+.nav-list-3 {
+  background-color: #9449AD;
+}
+
+.nav-list a {
+  width:100%;
+}
+
+
+.nav-item {
+  text-align: center;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+  color: white;
+}
+
+/*header*/
+header {
+  width:100%;
+  height:100vh;
+  background-image: linear-gradient(to bottom, transparent, rgba(0,0,0,0.4)),url(assets/banner.jpg);
+  background-size: cover;
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-title {
+  font-size: 4rem;
+  text-align: center;
+  color: white;
+  text-shadow: -2px 2px 5px black;
+}
+
+.header-info {
+  text-align: center;
+  font-size: 1.2rem;
+  color:white;
+  text-shadow: -1px 1px 3px black;
+}
+
+/*section common*/
+.container {
+  background-color: white;
+}
+
+section {
+  padding: 50px 0 0 0 ;
+}
+.section-title {
+  height: 96px;
+  display: flex;
+  direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+h2 {
+  text-align: center;
+  font-size: 3rem;
+}
+
+hr.line {
+    border: none;
+    border-top: solid 5px #2C0059;
+    text-align: center;
+    text-shadow: -1px 1px 3px black;
+    max-width: 50%;
+    margin: 10px auto 15px;
+
+}
+
+.section-title h3{
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+/*study*/
+.study {
+  background-color: white;
+}
+
+
+.study-item-bg {
+  background-color: rgba(98, 73, 173, 0.5);
+  box-shadow: 0px 0px 15px rgba(98, 73, 173, 0.5);
+}
+
+.study-item-bg:hover {
+  background-color: rgba(148, 73, 173, 0.8);
+  transition-duration: 2s;
+}
+
+.study-item img {
+  width:100%;
+
+}
+
+
+
+.study-item p {
+  text-align: center;
+  font-size: 1.2rem;
+  background-color: #443080;
+  color:white;
+  padding-top:0.6rem;
+  padding-bottom:0.6rem;
+  margin:0;
+}
+
+
+/*
+.study-item1 {
+  background-image: url(html_css.png);
+}
+
+.study-item2 {
+  background-image: url(js.png);
+}
+
+.study-item3 {
+  background-image: url(ror.png);
+}
+*/
+
+/*music*/
+.music {
+  background-color: white;
+}
+
+.music-item-bg {
+  background-color: rgba(98, 73, 173, 0.5);
+  box-shadow: 0px 0px 15px rgba(98, 73, 173, 0.5);
+}
+
+
+.music-item img {
+  width:100%;
+
+}
+
+
+.music-item p {
+  text-align: center;
+  font-size: 1.2rem;
+  background-color: #443080;
+  color:white;
+  padding-top:0.6rem;
+  padding-bottom:0.6rem;
+  margin:0;
+}
+
+
+/*video*/
+.video {
+  background-color: white;
+  margin-bottom: 50px;
+}
+
+
+.media-container {
+  width: 100%;
+  height: 0%;
+  padding-bottom: 56.25%;
+  position: relative;
+}
+
+.media-container iframe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+}
+
+
+.video-item p {
+  text-align: center;
+  font-size: 1.2rem;
+  background-color: #443080;
+  color:white;
+  padding-top:0.6rem;
+  padding-bottom:0.6rem;
+  margin:0;
+}
+
+/*grid system*/
+
+* {
+  box-sizing: border-box;
+  margin:0;
+}
+
+.row::after {
+  clear: both;
+  content: '';
+  display: block;
+}
+
+/*moblie*/
+@media screen and (max-width: 767px) {
+
+.container { width:100%; }
+
+[class*="col-mb"] {
+  float: left;
+  padding-left:10px;
+  padding-right:10px;
+}
+
+.col-mb-1 { width: 25% }
+.col-mb-2 { width: 50%;}
+.col-mb-3 { width: 75%;}
+.col-mb-4 { width: 100%;}
+
+.push {position: relative; left:25%;}
+
+.study-item {margin-bottom: 20px;}
+.study-item:last-child,.study-section-2 .study-item {margin-bottom: 0;}
+
+
+.music-section-2 .music-item {margin-bottom: 20px;}
+.music-section-2 .music-item:nth-child(5),.music-section-2 .music-item:nth-child(6) {margin-bottom: 0px;}
+
+.video-item {margin-bottom: 20px;}
+.video-item:last-child {margin-bottom:0;}
+
+header {
+  background-image: linear-gradient(to bottom, transparent, rgba(0,0,0,0.4)),url(assets/mbanner.jpg);
+  background-size: cover;
+}
+
+
+}
+
+/*tablet*/
+@media screen and (min-width: 768px) and (max-width: 1079px) {
+
+
+.container { width:100%; }
+
+[class*="col-tb"] {
+  float: left;
+  padding-left:10px;
+  padding-right:10px;
+}
+
+.col-tb-1 { width: 8.33%;}
+.col-tb-2 { width: 16.6%;}
+.col-tb-3 { width: 25%;}
+.col-tb-4 { width: 33.33%;}
+.col-tb-5 { width: 41.67%;}
+.col-tb-6 { width: 50%;}
+.col-tb-7 { width: 58.33%;}
+.col-tb-8 { width: 66.67%;}
+.col-tb-9 { width: 75%;}
+.col-tb-10 { width: 83.33%;}
+.col-tb-11 { width: 91.67%;}
+.col-tb-12 { width: 100%;}
+
+}
+
+/*desktop*/
+@media screen and (min-width: 1080px) {
+
+  .container {
+    width:1080px;
+    margin:0 auto;
+  }
+
+  [class*="col-dk"] {
+    float: left;
+    margin-left:10px;
+    margin-right:10px;
+  }
+
+  .col-dk-1 {width: 70px;}
+  .col-dk-2 {width: 160px;}
+  .col-dk-3 {width: 250px;}
+  .col-dk-4 {width: 340px;}
+  .col-dk-5 {width: 430px;}
+  .col-dk-6 {width: 520px;}
+  .col-dk-7 {width: 610px;}
+  .col-dk-8 {width: 700px;}
+  .col-dk-9 {width: 790px;}
+  .col-dk-10 {width: 880px;}
+  .col-dk-11 {width: 970px;}
+  .col-dk-12 {width: 1060px;}
+
+}

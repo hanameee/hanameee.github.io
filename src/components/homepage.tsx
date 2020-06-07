@@ -40,9 +40,9 @@ const Homepage = ({ posts }: PostsProps) => {
                 </Link>
             </Title>
             <Listing posts={posts} showTags={false} />
-            <List>
+            {/* <List>
                 <Bottom />
-            </List>
+            </List> */}
         </Layout>
     );
 };

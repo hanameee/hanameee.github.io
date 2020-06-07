@@ -7,7 +7,6 @@ const Hero = () => {
                 boxSizing: `border-box`,
                 display: `flex`,
                 flexDirection: "column",
-                variant: `dividers.bottom`,
                 justifyContent: `center`,
                 alignItems: `center`,
                 my: [4, 5],
@@ -16,10 +15,10 @@ const Hero = () => {
             }}
         >
             <div sx={{ mb: [3, 4] }}>
-                개발자로서 배운 것들을 기록해나가는 공간.
+                개발자로서 배운 것들을 기록해나가는 공간
             </div>
             <img
-                src={"/main.png"}
+                src={"/hero-image.png"}
                 alt="Logo"
                 style={{ width: "50%" }}
                 sx={{ mb: [3, 4] }}

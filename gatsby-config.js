@@ -5,13 +5,13 @@ require(`dotenv`).config({
 module.exports = {
     siteMetadata: {
         siteTitle: `hanameee.github.io`,
-        siteTitleAlt: `Minimal Blog - Gatsby Theme`,
-        siteHeadline: `Minimal Blog - Gatsby Theme from @lekoarts`,
+        siteTitleAlt: `hanameee.github.io`,
+        siteHeadline: `dev blog for @hanameee`,
         siteUrl: `https://hanameee.github.io/`,
         siteDescription: `dev blog for @hanameee`,
         siteLanguage: `en`,
-        siteImage: `/banner.jpg`,
-        author: `@lekoarts_de`,
+        siteImage: `/about-image.jpg`,
+        author: `@hanameee`,
     },
     plugins: [
         {
@@ -55,13 +55,8 @@ module.exports = {
                 display: `standalone`,
                 icons: [
                     {
-                        src: `/android-chrome-192x192.png`,
+                        src: `/android-icon-192x192.png`,
                         sizes: `192x192`,
-                        type: `image/png`,
-                    },
-                    {
-                        src: `/android-chrome-512x512.png`,
-                        sizes: `512x512`,
                         type: `image/png`,
                     },
                 ],

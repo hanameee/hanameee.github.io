@@ -3,6 +3,7 @@
 <url> <loc>https://hanameee.github.io/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://hanameee.github.io/blog</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://hanameee.github.io/tags</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://hanameee.github.io/internship_log_week1</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://hanameee.github.io/기본 자바스크립트 메서드 정리</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://hanameee.github.io/about</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 </urlset>

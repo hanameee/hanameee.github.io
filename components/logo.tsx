@@ -1,6 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
+import Image from "next/image";
 import Link from "next/link";
 
 export function Logo() {
@@ -8,7 +9,7 @@ export function Logo() {
 
 	return (
 		<Link href="/">
-			<img
+			<Image
 				src="/logo.png"
 				alt="logo"
 				width={150}

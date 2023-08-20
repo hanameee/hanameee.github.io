@@ -1,7 +1,12 @@
-# Next.js + Contentlayer
+<img src="./public/logo.png" width="200"/>
 
-A template with Next.js 13 app dir, Contentlayer, Tailwind CSS and dark mode.
+## Dependencies
 
-https://next-contentlayer.vercel.app
+Initialized with [next-contentlayer](https://github.com/shadcn/next-contentlayer).
 
+* React
+* Next@13
+* pnpm
+* tailwindcss
+* contentlayer
 

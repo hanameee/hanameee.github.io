@@ -13,6 +13,7 @@ export function Logo() {
 				src="/logo.png"
 				alt="logo"
 				width={150}
+				height={150}
 				className={`m-auto invert${theme !== "dark" ? "-0" : ""}`}
 			/>
 		</Link>

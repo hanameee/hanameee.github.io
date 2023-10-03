@@ -4,8 +4,11 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 
+const SYSTEM_THEME = "system" as const;
+
 export function Logo() {
-	const { theme } = useTheme();
+	const { theme, systemTheme } = useTheme();
+	const currentTheme = theme === SYSTEM_THEME ? systemTheme : theme;
 
 	return (
 		<Link href="/">
@@ -14,7 +17,7 @@ export function Logo() {
 				alt="logo"
 				width={150}
 				height={150}
-				className={`m-auto invert${theme !== "dark" ? "-0" : ""}`}
+				className={`m-auto invert${currentTheme !== "dark" ? "-0" : ""}`}
 			/>
 		</Link>
 	);

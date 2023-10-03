@@ -17,7 +17,7 @@ export function Logo() {
 				alt="logo"
 				width={150}
 				height={150}
-				className={`m-auto invert${currentTheme !== "dark" ? "-0" : ""}`}
+				className={`mb-4 m-auto invert${currentTheme !== "dark" ? "-0" : ""}`}
 			/>
 		</Link>
 	);

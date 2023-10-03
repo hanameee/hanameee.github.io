@@ -9,8 +9,9 @@ import { Logo } from "@/components/logo";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-	title: "hanameee",
+	title: "hanameee.github.io",
 	description: "이해나 블로그",
+	metadataBase: new URL("https://hanameee.github.io"),
 };
 
 interface RootLayoutProps {

@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { allPages } from "contentlayer/generated";
@@ -47,10 +48,19 @@ export default async function PagePage({ params }: PageProps) {
 
 	if (!page) {
 		notFound();
+		return;
 	}
 
 	return (
 		<article className="py-6 prose dark:prose-invert">
+			<Head>
+				<meta property="og:title" content={page.title} key="title" />
+				<meta
+					property="og:description"
+					content={page.description}
+					key="description"
+				/>
+			</Head>
 			<h1>{page.title}</h1>
 			{page.description && <p className="text-xl">{page.description}</p>}
 			<hr />

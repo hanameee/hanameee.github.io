@@ -12,6 +12,13 @@ export const metadata = {
 	title: "hanameee.github.io",
 	description: "이해나 블로그",
 	metadataBase: new URL("https://hanameee.github.io"),
+	openGraph: {
+		title: "hanameee.github.io",
+		description: "이해나 블로그",
+		url: "https://hanameee.github.io",
+		locale: "ko_KR",
+		type: "website",
+	},
 };
 
 interface RootLayoutProps {

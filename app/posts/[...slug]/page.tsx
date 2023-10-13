@@ -1,7 +1,6 @@
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { allPosts } from "contentlayer/generated";
-
-import { Metadata } from "next";
 import { Mdx } from "@/components/mdx-components";
 
 interface PostProps {
@@ -33,6 +32,10 @@ export async function generateMetadata({
 	return {
 		title: post.title,
 		description: post.description,
+		openGraph: {
+			title: post.title,
+			description: post.description,
+		},
 	};
 }
 

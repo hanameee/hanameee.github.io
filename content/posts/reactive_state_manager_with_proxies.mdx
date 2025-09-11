@@ -1,0 +1,214 @@
+---
+title: "[번역] 자바스크립트 프록시로 초경량 반응형 상태 관리 구현하기"
+description: 간단한 상태 관리 시스템 직접 구현해보기
+date: "2025-09-11"
+---
+
+> 원문: [https://www.lorenstew.art/blog/reactive-state-manager-with-proxies](https://www.lorenstew.art/blog/reactive-state-manager-with-proxies)
+
+> 프런트엔드 프레임워크나 복잡한 상태 관리 라이브러리에 지치셨나요? 단 몇 줄의 자바스크립트와 프록시의 강력함만으로 UI와 애플리케이션 상태를 자동으로 동기화하는 방법을 알아보세요.
+
+
+프런트엔드 상태 관리는 정말 어려운 과제일 수 있습니다. 처음엔 간단한 변수로 시작하지만, 곧 복잡한 객체가 되고, 어느새 무거운 라이브러리로부터 온 리듀서, 액션, 셀렉터들과 씨름하게 됩니다. 우리는 종종 단 하나의 단순한 질문에 답하기 위해 수많은 보일러플레이트를 작성하게 되죠. "이 값이 바뀔 때 UI가 자동으로 업데이트되게 하려면 어떻게 해야 하지?"
+
+
+이를 구현할 때 라이브러리가 필요하지 않다면 어떨까요? 자바스크립트에 이미 내장되어 있지만 놓치고 있던 기능 하나만으로, 강력하면서도 믿을 수 없을 만큼 단순한 반응형 시스템을 직접 만들 수 있다면요?
+
+
+여기서 등장하는 것이 바로 [`프록시` 객체](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)입니다. `프록시`는 다른 객체를 감싸서 프로퍼티를 읽거나 쓰는 등의 내부 동작을 가로챌 수 있게 해줍니다. 이 중에서도 set 동작  (`=` 할당 연산자가 내부적으로 호출하는 `set()`)을 가로채면, 애플리케이션의 상태와 UI 업데이트 함수 사이에 가볍고 "마법 같은" 연결을 만들 수 있습니다. 실제 예제를 통해 어떻게 동작하는지 살펴봅시다.
+
+
+## 핵심 아이디어: 상태를 가로채는 인터셉터
+
+
+목표는 상태 객체가 변경될 때마다 UI 업데이트 함수가 자동으로 실행되게 하는 것입니다. 값을 변경할 때마다 매번 `updateTheUI()` 같은 함수를 직접 호출하고 싶진 않기 때문입니다.
+
+
+이럴 때 자바스크립트 `프록시`는 딱 맞는 도구입니다. 일종의 중개인처럼 동작하죠. 상태 객체의 프로퍼티를 바꾸려고 하면, 프록시가 끼어들어 이렇게 묻습니다. “그 값을 바꾸기 전에, 내가 해야 할 다른 일이 있을까?”
+
+
+1. The State Object: A plain JavaScript object that holds our application’s data.
+2. The Handler: An object that defines what to do when an operation (like set) is performed on the proxy. This is where we’ll trigger our UI updates.
+3. The Proxy Itself: The reactive object our application will interact with instead of the original state object. -->
+
+기본 구성은 다음과 같습니다.
+
+1. 상태 객체: 애플리케이션의 데이터를 저장하는 일반 자바스크립트 객체입니다.
+2. 핸들러: 프록시에서 특정 동작(`set`과 같은)이 수행될 때 처리할 동작을 정의하는 객체로, 여기서 UI 업데이트를 트리거합니다.
+3. 프록시 객체: 애플리케이션이 원래 상태 객체 대신 상호작용할 반응형 객체입니다.
+
+
+## 실전 예제: 미디어 제출 폼
+
+ 
+이 애플리케이션에는 사용자가 4장의 사진 또는 1개의 영상을 선택할 수 있는 온라인 광고용 미디어 제출 폼이 있습니다. 이 기능을 위한 상태는 다음과 같습니다.
+
+```javascript
+// 원본 상태 객체
+const mediaState = {
+  photos: {
+    "1": null,
+    "2": null,
+    "3": null,
+    "4": null,
+  },
+  video: "",
+  mediaType: "none", // "photo" | "video" | "none"
+};
+```
+
+이 값들이 변경될 때마다 UI의 여러 부분들을 업데이트해야 합니다. 선택된 사진, 갤러리 내 버튼들, 그리고 서버로 제출될 숨겨진 입력 값들이 있습니다.
+
+
+사진을 추가할 때마다 세 가지 서로 다른 업데이트 함수를 호출하는 대신, 프록시를 생성합니다.
+
+
+```javascript
+// "트랩"을 정의하는 핸들러
+// ("트랩"에 대한 자세한 내용은 [MDN의 프록시 문서](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Proxy#%EC%99%84%EC%A0%84%ED%95%9C_trap_%EC%98%88%EC%A0%9C)를 참고하세요)
+const handler = {
+  set(target, property, value) {
+    // 먼저, 대상 객체의 실제 프로퍼티를 업데이트합니다.
+    target[property] = value;
+
+    // 이제 모든 UI 업데이트를 트리거합니다!
+    // 숨겨진 입력 값들을 업데이트하고
+    updateHiddenInputs();
+
+    // 미디어가 최대 개수만큼 선택되면 버튼을 비활성화합니다.
+    updateGalleryModalButtons();
+
+    // 선택된 사진들이 네 개의 박스에 특정 순서로 표시됩니다.
+    // 이 선택된 사진들은 드래그를 통해 순서를 변경할 수 있습니다.
+    updateSelectedPhotoSquares();
+
+    // 성공을 알리기 위해 true를 반환합니다.
+    return true;
+  },
+};
+
+// 반응형 프록시 생성
+export const mediaStateProxy = new Proxy(mediaState, handler);
+```
+
+이제 끝입니다! 애플리케이션 어디에서든 `mediaState` 대신 `mediaStateProxy`를 수정하면 됩니다.
+
+```javascript
+// 이 한 줄 수정만으로도...
+mediaStateProxy.video = "https://example.com/my-video.mp4";
+
+// ...세 개의 UI 업데이트 함수가 자동으로 실행됩니다.
+// updateHiddenInputs();
+// updateGalleryModalButtons();
+// updateSelectedPhotoSquares();
+```
+
+비디오를 설정하는 코드는 UI에 대해 알 필요가 없습니다. 단순히 상태를 변경하기만 하면 되고, 나머지는 프록시가 처리합니다. 이로써 관심사의 분리가 깔끔하게 이루어집니다.
+
+## 전체 구조: 상태 조회와 공개 API
+
+
+프록시가 자동 UI 업데이트를 처리하게 하였으니, 코드를 깔끔하고 체계적으로 유지하기 위해 두 가지 요소를 더 추가해 봅시다.
+
+
+### 1. 공개 API 함수
+
+
+코드 전반적으로 `mediaStateProxy.photos['1'] = ...` 과 같은 코드들을 남발하지 않기 위해, 상태를 다루기 위한 명확한 의도를 가진 간단한 함수들을 공개 API로 만듭니다.
+
+
+```javascript
+// 사진을 추가하는 공개 함수
+export function addPhoto(url) {
+  const position = StateQueries.getFirstAvailablePosition();
+  // 다음으로 비어있는 슬롯(1, 2, 3, 또는 4)을 찾습니다.
+  if (position) {
+    // 이 할당은 프록시의 'set' 트랩을 호출합니다.
+    mediaStateProxy.photos[position] = url;
+    mediaStateProxy.mediaType = "photo";
+  }
+}
+
+// 비디오를 설정하는 공개 함수
+export function setVideo(url) {
+  // 이 할당 역시 프록시를 트리거합니다.
+  mediaStateProxy.video = url;
+  mediaStateProxy.mediaType = "video";
+}
+```
+
+이렇게 함으로써 코드의 가독성을 높이고, 상태 객체의 구현 세부사항을 추상화할 수 있습니다.
+
+
+### 복잡한 상호작용 처리: 사진 순서 변경하기
+
+
+이 패턴은 단순한 추가나 변경만을 위한 것이 아닙니다. 드래그 앤 드롭 순서 변경과 같은 보다 복잡한 UI 상호작용에도 적용이 가능합니다. 사용자가 선택한 네 장의 사진을 드래그하여 순서를 변경할 수 있다고 가정해 보겠습니다.
+
+드래그 앤 드롭 라이브러리(여기서는 [sortableJS](https://sortablejs.github.io/Sortable/)를 사용합니다)는 사진 URL의 배열 형태로 새로운 순서를 제공할 것입니다. 우리가 해야 할 일은 이 새로운 순서를 받아 상태를 업데이트하는 공개 API 함수를 만드는 것뿐입니다. 나머지 작업은 프록시가 처리합니다.
+
+
+```javascript
+// 사진 순서 변경을 처리하는 공개 함수
+export function reorderPhotos(newOrderArray) {
+  const newPhotosState = { "1": null, "2": null, "3": null, "4": null };
+
+  // 배열을 기반으로 새로운 photos 객체를 생성합니다.
+  newOrderArray.forEach((url, index) => {
+    // 키는 '1', '2', '3', '4'입니다.
+    newPhotosState[String(index + 1)] = url;
+  });
+
+  // 프록시의 프로퍼티에 단순히 할당하는 것 만으로도...
+  mediaStateProxy.photos = newPhotosState;
+  // ...'set' 트랩과 모든 UI 업데이트가 실행됩니다.
+}
+```
+
+`reorderPhotos`가 호출되면 상태 객체의 `photos` 프로퍼티를 덮어씁니다. 프록시가 이 변경을 가로채며, 이전과 마찬가지로 UI 업데이트 함수들(`updateSelectedPhotoSquares` 등)을 자동으로 실행합니다. 순서 변경 로직은 한 곳에 모여 있고, UI 동기화는 여전히 자동으로 처리됩니다.
+
+
+### 2. 상태 조회 함수
+
+
+애플리케이션의 다른 부분에서 상태 객체에 직접 접근해 복잡한 조회를 수행하지 않게 하기 위해, `StateQueries` 모듈을 만듭니다. 이 모듈은 오로지 상태를 읽는 하는 간단한 함수들로 구성되며, 당연하지만 프록시의 `set` 핸들러를 트리거하지 않습니다.
+
+
+```javascript
+export const StateQueries = {
+  countPhotos() {
+    return Object.values(mediaStateProxy.photos).filter((p) => p !== null)
+      .length;
+  },
+
+  getFirstAvailablePosition() {
+    for (const pos of ["1", "2", "3", "4"]) {
+      if (mediaStateProxy.photos[pos] === null) {
+        return pos;
+      }
+    }
+    return null;
+  },
+
+  isMediaSelectionValid() {
+    const photoCount = this.countPhotos();
+    const hasVideo = !!mediaStateProxy.video;
+    return (photoCount === 4 && !hasVideo) || (photoCount === 0 && hasVideo);
+  },
+};
+```
+
+이렇게 하면 상태 관련 로직을 한 곳에 모아 관리할 수 있고, 테스트도 용이해집니다.
+
+## 이 접근법의 장점
+
+많은 애플리케이션에서, 이 가벼운 프록시 기반의 접근은 거대한 상태 관리 라이브러리와 프런트엔드 프레임워크의 훌륭한 대안이 됩니다.
+
+
+- **단순함**: 핵심 로직이 단 몇 줄로 구성되어 있습니다. 이해하고 디버깅하기 쉽습니다.
+- **의존성 없음**: 순수 자바스크립트 기능만으로 구현이 가능합니다. 별도의 `npm install`이 필요 없습니다.
+- **명확한 분리**: 상태를 변경하는 코드와 UI를 업데이트하는 코드가 완전히 분리되어 있습니다.
+- **적은 보일러플레이트**: 액션, 리듀서, 디스패처 등을 정의할 필요가 없습니다. 그저 값을 변경하기만 하면 됩니다.
+
+
+다음에 상태와 UI를 동기화해야 할 때는 자바스크립트의 `프록시`를 한번 살펴보세요. 이것만으로도 충분한 상태 관리가 될 수 있습니다.

@@ -47,19 +47,21 @@ export async function generateStaticParams(): Promise<PostProps["params"][]> {
 
 export default async function PostPage({ params }: PostProps) {
 	const post = await getPostFromParams(params);
-
 	if (!post) {
 		notFound();
 	}
-
+	const dateString = new Date(post.date).toLocaleDateString(undefined, {
+		year: "numeric", month: "long", day: "numeric"
+	})
 	return (
 		<article className="py-6 prose dark:prose-invert">
 			<h1 className="mb-2">{post.title}</h1>
 			{post.description && (
-				<p className="text-l mt-0 text-slate-700 dark:text-slate-200">
+				<p className="text-l mt-0 mb-0 text-slate-700 dark:text-slate-200">
 					{post.description}
 				</p>
 			)}
+			<span>{dateString}</span>
 			<hr className="my-4" />
 			<Mdx code={post.body.code} />
 		</article>

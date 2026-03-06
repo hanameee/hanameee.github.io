@@ -4,7 +4,7 @@ description: 웹이 가진 가장 오래되고 우아한 기능
 date: "2026-01-12"
 ---
 
-> 원문: https://alfy.blog/2025/10/31/your-url-is-your-state.html
+> 원문: [https://alfy.blog/2025/10/31/your-url-is-your-state.html](https://alfy.blog/2025/10/31/your-url-is-your-state.html)
 
 몇 주 전 [The Hidden Cost of URL Design](https://alfy.blog/2025/10/16/hidden-cost-of-url-design.html)을 발행할 때, 저는 SQL 문법 하이라이팅을 추가해야 했습니다. 그래서 [PrismJS](https://prismjs.com/) 웹사이트에서 이를 플러그인으로 추가해야 했었는지 찾아보고자 했습니다. 하지만 다운로드 페이지의 옵션이 너무 많은 나머지 압도감을 느꼈고 다시 코드로 돌아갔습니다. PrismJS 파일을 확인해보니, 파일 맨 위에 URL이 포함된 주석을 발견했습니다.
 
@@ -28,16 +28,21 @@ Scott Hanselman은 “[URL은 UI다](https://www.hanselman.com/blog/urls-are-ui)
 
 URL이 우리에게 기본으로 제공하는 것들을 생각해보세요.
 
-* **공유 가능성**: 누군가에게 링크를 보내면, 그 사람은 당신이 보고 있는 것과 정확히 같은 화면을 보게 됩니다.
-* **북마크 가능성**: URL을 저장한다는 것은 어떤 시점의 상태를 그대로 저장하는 것입니다.
-* **브라우저 히스토리**: 뒤로 가기 버튼이 당연하게 작동합니다.
-* **딥 링크**: 애플리케이션의 특정 상태로 바로 진입할 수 있습니다.
+- **공유 가능성**: 누군가에게 링크를 보내면, 그 사람은 당신이 보고 있는 것과 정확히 같은 화면을 보게 됩니다.
+- **북마크 가능성**: URL을 저장한다는 것은 어떤 시점의 상태를 그대로 저장하는 것입니다.
+- **브라우저 히스토리**: 뒤로 가기 버튼이 당연하게 작동합니다.
+- **딥 링크**: 애플리케이션의 특정 상태로 바로 진입할 수 있습니다.
 
 URL은 웹 애플리케이션을 탄탄하고 예측 가능하게 만들어줍니다. URL은 웹의 원조 상태 관리 솔루션이며, 1991년부터 신뢰성 있게 동작해오고 있습니다. 문제는 "URL이 상태를 저장할 수 있는가?"가 아니라, "우리가 그 잠재력을 충분히 활용하고 있는가?" 입니다.
 
 예시로 들어가기 전에, URL이 상태를 어떻게 인코딩하는지부터 살펴봅시다. 아래는 일반적인 상태를 가진 URL의 예입니다:
 
-<Image src="/your_url_is_your_state/01.png" width="800" className="m-auto" alt="mdn url all" />
+<Image
+  src="/your_url_is_your_state/01.png"
+  width="800"
+  className="m-auto"
+  alt="mdn url all"
+/>
 
 URL의 구성 요소 — 출처: [What is a URL - MDN Web Docs](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Web_mechanics/What_is_a_URL)
 
@@ -46,9 +51,9 @@ URL의 구성 요소 — 출처: [What is a URL - MDN Web Docs](https://develope
 URL의 각 부분은 서로 다른 종류의 상태를 인코딩합니다:
 
 1. Path Segments (`/path/to/myfile.html`). **계층적 리소스 네비게이션**에 가장 적합합니다.
-   -  /users/123/posts — 사용자 123의 게시글
-   -  /docs/api/authentication — 문서 구조
-   -  /dashboard/analytics — 애플리케이션 섹션
+   - /users/123/posts — 사용자 123의 게시글
+   - /docs/api/authentication — 문서 구조
+   - /dashboard/analytics — 애플리케이션 섹션
 2. Query Parameters (`?key1=value1&key2=value2`) - **필터, 옵션, 설정 값**에 적합합니다.
    - ?theme=dark&lang=en — UI 환경설정
    - ?page=2&limit=20 — 페이지네이션
@@ -58,7 +63,6 @@ URL의 각 부분은 서로 다른 종류의 상태를 인코딩합니다:
    - #L20-L35 — GitHub에서 특정 라인 하이라이트
    - #features — 특정 섹션으로 스크롤
    - #/dashboard — 싱글 페이지 앱 라우팅(요즘은 거의 사용되지 않음)
-
 
 ### 쿼리 파라미터에 잘 맞는 일반적인 패턴들
 
@@ -156,58 +160,58 @@ https://store.com/laptops?brand=dell+hp&price=500-1500&rating=4&sort=price-asc
 
 **URL 상태로 적합한 것들**
 
-* 검색 쿼리와 필터
-* 페이지네이션 및 정렬
-* 뷰 모드(리스트/그리드, 어두운 모드/밝은 모드)
-* 날짜 범위 및 기간
-* 선택된 항목 또는 활성 탭
-* 내용에 영향을 주는 UI 설정
-* 기능 플래그 및 A/B 테스트 변형
+- 검색 쿼리와 필터
+- 페이지네이션 및 정렬
+- 뷰 모드(리스트/그리드, 어두운 모드/밝은 모드)
+- 날짜 범위 및 기간
+- 선택된 항목 또는 활성 탭
+- 내용에 영향을 주는 UI 설정
+- 기능 플래그 및 A/B 테스트 변형
 
 **URL 상태로 부적합한 것들**
 
-* 민감 정보(비밀번호, 토큰, 개인정보)
-* 일시적 UI 상태(모달 열림/닫힘, 드롭다운 펼침 상태)
-* 진행 중인 폼 입력(저장되지 않은 변경 사항)
-* 매우 크거나 복잡한 중첩 데이터
-* 고빈도 일시적 상태(마우스 위치, 스크롤 위치)
+- 민감 정보(비밀번호, 토큰, 개인정보)
+- 일시적 UI 상태(모달 열림/닫힘, 드롭다운 펼침 상태)
+- 진행 중인 폼 입력(저장되지 않은 변경 사항)
+- 매우 크거나 복잡한 중첩 데이터
+- 고빈도 일시적 상태(마우스 위치, 스크롤 위치)
 
 어떤 상태가 URL에 들어가야 할지 확신이 서지 않는다면 이렇게 자문해보세요. “이 URL을 누군가 클릭했을 때, 그 사람도 동일한 상태를 봐야 하는가?”
 
 만약 그렇다면 URL에 넣어야 합니다. 아니라면, 다른 상태 관리 방식을 사용하세요.
 
-###  Plain JavaScript를 사용한 구현
+### Plain JavaScript를 사용한 구현
 
 현대의 [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) API 덕분에 URL 상태 관리는 매우 간단합니다.
 
 ```js
 // URL 파라미터 읽기
 const params = new URLSearchParams(window.location.search);
-const view = params.get('view') || 'grid';
-const page = params.get('page') || 1;
+const view = params.get("view") || "grid";
+const page = params.get("page") || 1;
 
 // URL 파라미터 업데이트 함수
 function updateFilters(filters) {
   const params = new URLSearchParams(window.location.search);
 
   // 개별 파라미터 업데이트
-  params.set('status', filters.status);
-  params.set('sort', filters.sort);
+  params.set("status", filters.status);
+  params.set("sort", filters.sort);
 
   // 페이지 새로고침 없이 URL 업데이트
   const newUrl = `${window.location.pathname}?${params.toString()}`;
-  window.history.pushState({}, '', newUrl);
+  window.history.pushState({}, "", newUrl);
 
   // 새로운 파라미터 기반으로 UI 업데이트
   renderContent(filters);
 }
 
 // 뒤로/앞으로 가기 버튼 핸들링
-window.addEventListener('popstate', () => {
+window.addEventListener("popstate", () => {
   const params = new URLSearchParams(window.location.search);
   const filters = {
-    status: params.get('status') || 'all',
-    sort: params.get('sort') || 'date'
+    status: params.get("status") || "all",
+    sort: params.get("sort") || "date",
   };
   renderContent(filters);
 });
@@ -220,28 +224,28 @@ window.addEventListener('popstate', () => {
 리액트 라우터와 Next.js는 훨씬 깔끔하게 URL 상태를 다룰 수 있는 훅을 제공합니다:
 
 ```js
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from "react-router-dom";
 // 또는 Next.js 13+: import { useSearchParams } from 'next/navigation';
 
 function ProductList() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // URL로부터 읽어오기 (기본값 포함)
-  const color = searchParams.get('color') || 'all';
-  const sort = searchParams.get('sort') || 'price';
+  const color = searchParams.get("color") || "all";
+  const sort = searchParams.get("sort") || "price";
 
   // URL 업데이트하기
   const handleColorChange = (newColor) => {
-    setSearchParams(prev => {
+    setSearchParams((prev) => {
       const params = new URLSearchParams(prev);
-      params.set('color', newColor);
+      params.set("color", newColor);
       return params;
     });
   };
 
   return (
     <div>
-      <select value={color} onChange={e => handleColorChange(e.target.value)}>
+      <select value={color} onChange={(e) => handleColorChange(e.target.value)}>
         <option value="all">All Colors</option>
         <option value="silver">Silver</option>
         <option value="black">Black</option>
@@ -273,7 +277,7 @@ function ProductList() {
 
 ```js
 function getTheme(params) {
-  return params.get('theme') || 'light'; // 기본값은 코드에서 처리
+  return params.get("theme") || "light"; // 기본값은 코드에서 처리
 }
 ```
 
@@ -282,16 +286,16 @@ function getTheme(params) {
 검색창 입력처럼 업데이트가 매우 빈번한 경우, URL 변경에 디바운싱을 적용하는 것이 좋습니다.
 
 ```js
-import { debounce } from 'lodash';
+import { debounce } from "lodash";
 
 const updateSearchParam = debounce((value) => {
   const params = new URLSearchParams(window.location.search);
   if (value) {
-    params.set('q', value);
+    params.set("q", value);
   } else {
-    params.delete('q');
+    params.delete("q");
   }
-  window.history.replaceState({}, '', `?${params.toString()}`);
+  window.history.replaceState({}, "", `?${params.toString()}`);
 }, 300);
 // pushState가 아닌 replaceState를 사용하여 히스토리 오염 방지
 ```
@@ -328,20 +332,24 @@ Jim Nielsen은 이런 URL을 “[스스로를 설명하는 훌륭한 URL의 예]
 
 URL은 곧 **캐시 키(cache key)**입니다. URL을 잘 설계하면 캐싱 전략도 강력해집니다.
 
-* 동일 URL = 동일 리소스 = 캐시 히트
-* 쿼리 파라미터가 캐시 변형 조건을 정의
-* CDN은 URL 패턴을 기준으로 똑똑하게 캐싱 가능
+- 동일 URL = 동일 리소스 = 캐시 히트
+- 쿼리 파라미터가 캐시 변형 조건을 정의
+- CDN은 URL 패턴을 기준으로 똑똑하게 캐싱 가능
 
 또한 사용자 여정을 추가 트래킹 코드 없이 시각화할 수도 있습니다.
 
-<Image src="/your_url_is_your_state/02.png" width="800" className="m-auto" alt="user journey" />
+<Image
+  src="/your_url_is_your_state/02.png"
+  width="800"
+  className="m-auto"
+  alt="user journey"
+/>
 
 분석 도구는 추가 기능 없이도 이러한 흐름을 추적할 수 있습니다. 모든 URL 파라미터 하나하나가 분석할 수 있는 하나의 차원이 됩니다.
 
 ### 버전 관리와 진화
 
 URL은 API 버전, 기능 플래그, 실험 정보까지도 표현할 수 있습니다.
-
 
 ```
 ?v=2                  // API 버전
@@ -392,6 +400,7 @@ URL은 브라우저 히스토리, 서버 로그, 분석 도구, Referrer 헤더 
 ### URL에 과도하게 복잡한 상태를 넣기
 
 ```?config=eyJtZXNzYWdlIjoiZGlkIHlvdSByZWFsbHkgdHJpZWQgdG8gZGVjb2RlIHRoYXQ_IiwiZmlsdGVycyI6eyJzdGF0dXMiOlsiYWN0aXZlIiwicGVuZGluZyJdLCJwcmlvcml0eSI6WyJoaWdoIiwibWVkaXVtIl0sInRhZ3MiOlsiZnJvbnRlbmQiLCJyZWFjdCIsImhvb2tzIl0sInJhbmdlIjp7ImZyb20iOiIyMDI0LTAxLTAxIiwidG8iOiIyMDI0LTEyLTMxIn19LCJzb3J0Ijp7ImZpZWxkIjoiY3JlYXRlZEF0Iiwib3JkZXIiOiJkZXNjIn0sInBhZ2luYXRpb24iOnsicGFnZSI6MSwibGltaXQiOjIwfX0==
+
 ```
 
 이렇게까지 방대한 JSON을 base64로 인코딩해야 할 정도라면,
@@ -405,7 +414,7 @@ URL은 브라우저 히스토리, 서버 로그, 분석 도구, Referrer 헤더 
 
 ```js
 // replaceState를 잘못 사용한 경우
-history.replaceState({}, '', newUrl);
+history.replaceState({}, "", newUrl);
 ```
 
 브라우저 히스토리를 존중해야 합니다. 어떤 사용자 동작이 뒤로 가기 버튼을 통해 “되돌릴 수 있어야” 한다면 `pushState`를 사용하세요. 반면 단순한 조정이라면 `replaceState`를 사용하세요.
